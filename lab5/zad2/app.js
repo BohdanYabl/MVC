@@ -4,9 +4,14 @@ const PORT = 3001;
 
 app.set('view engine', 'ejs');
 
-app.get('/', (req, res) => {
-    res.send('In progress...');
-});
+const authorsRouter = require('./routes/authors');
+app.use('/', authorsRouter);
+
+const booksRouter = require('./routes/books');
+app.use('/', booksRouter);
+
+const homeRouter = require('./routes/home');
+app.use('/', homeRouter);
 
 app.use((req, res, next) => {
     res.status(404).send("404 Not Found");
