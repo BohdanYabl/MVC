@@ -18,7 +18,7 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const errorRoutes = require('./zad1/routes/error');
+const errorRoutes = require('./routes/error');
 app.use('*', errorRoutes);
 
 app.get('/back-home', (req, res) => {
