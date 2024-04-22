@@ -4,32 +4,36 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
+const PORT = 4001;
 
-// Ustawienie katalogu plików statycznych
+// Підключення маршрутів
+const userRoutes = require('./routes/user');
+const bookRoutes = require('./routes/book');
+const errorRoutes = require('./routes/error');
+
+// Встановлення каталогу статичних файлів
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Konfiguracja silnika widoków na ejs
+// Встановлення двигуна для шаблонів
 app.set('view engine', 'ejs');
-
-// Konfiguracja ścieżki do katalogu widoków
 app.set('views', path.join(__dirname, 'views'));
 
-// Konfiguracja sesji
+// Налаштування сесій
 app.use(session({
   secret: 'secret',
   resave: false,
   saveUninitialized: true
 }));
 
-// Dodanie middleware bodyParser
+// Використання bodyParser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Routing dla obsługi błędów
-const errorRoutes = require('./routes/error');
+// Підключення маршрутів до програми
+app.use('/user', userRoutes);
+app.use('/books', bookRoutes);
 app.use('*', errorRoutes);
 
-// Nasłuchiwanie na porcie
+// Прослуховування порту
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
